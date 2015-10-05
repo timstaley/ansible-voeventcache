@@ -1,0 +1,31 @@
+- name: Drop in readymade postgres.conf
+  copy:
+    src: postgresql.conf-9.3
+    dest: /etc/postgresql/9.3/main
+    mode: "u=rw,g=r,o=r"
+  sudo: yes
+  #Restart service if invocation has changed:
+  notify:
+    - restart postgres
+
+- name: Create postgres voeventcache user
+  postgresql_user:
+    name: "{{voeventcache_user}}"
+    password: "{{voeventcache_user}}"
+    role_attr_flags: "CREATEDB"
+  become: yes
+  become_user: postgres
+
+- name: Create postgres voeventcache read-only user
+  postgresql_user:
+    name: "{{voeventcache_ro_user}}"
+    password: "{{voeventcache_ro_user}}"
+  become: yes
+  become_user: postgres
+
+- name: Create postgres userdb
+  postgresql_db:
+    name: "{{voeventcache_user}}"
+    login_user: "{{voeventcache_user}}"
+  become: yes
+  become_user: "{{voeventcache_user}}"

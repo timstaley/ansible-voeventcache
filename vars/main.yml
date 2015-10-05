@@ -1,0 +1,5 @@
+---
+# vars file for voeventcache
+voeventcache_users:
+  - "{{voeventcache_user}}"
+  - "{{voeventcache_ro_user}}"

@@ -1,0 +1,8 @@
+- hosts: voeventcachevm
+
+  pre_tasks:
+    - include: base.yml tags=base
+
+
+  roles:
+    - { role: ../../voeventcache }
