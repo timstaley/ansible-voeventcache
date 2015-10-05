@@ -23,9 +23,11 @@
   become: yes
   become_user: postgres
 
-- name: Create postgres userdb
+- name: Create postgres user-db (simplifies use of default login)
   postgresql_db:
     name: "{{voeventcache_user}}"
     login_user: "{{voeventcache_user}}"
   become: yes
   become_user: "{{voeventcache_user}}"
+
+

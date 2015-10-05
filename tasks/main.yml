@@ -9,4 +9,5 @@
 - include: users.yml tags=users
 - include: postgres_setup.yml tags=postgres
 - include: voeventcache_install.yml tags=install
+- include: rest_server_setup.yml tags=apache
 

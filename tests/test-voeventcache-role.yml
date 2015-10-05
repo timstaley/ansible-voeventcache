@@ -5,4 +5,5 @@
 
 
   roles:
-    - { role: ../../voeventcache }
+    - { role: ../../voeventcache,
+        voeventcache_domain: "localhost" }

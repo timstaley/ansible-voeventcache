@@ -1,0 +1,52 @@
+- name: Enable mod_wsgi
+  apache2_module: state=present name=wsgi
+  sudo: yes
+  notify: restart apache
+
+- name: Disable default siteconf
+  command: a2dissite 000-default
+  args:
+    removes: /etc/apache2/sites-enabled/000-default.conf
+  sudo: yes
+  #Restart service if init-script has changed:
+  notify:
+    - restart apache
+
+- name: Create /var/www subdir with correct permissions
+  file: path={{item}} state=directory mode=0755 owner={{ voeventcache_user }}
+  with_items:
+    - /var/www/voeventcache
+  sudo: yes
+
+- name: Upload templated voeventcache wsgi config
+  template:
+    src: voeventcache.wsgi.j2
+    dest: "/var/www/voeventcache/voeventcache.wsgi"
+    owner: "{{ voeventcache_user }}"
+    group: voevent
+    mode: "u=rw,g=r,o=r"
+  become: yes
+  become_user: "{{ voeventcache_user }}"
+  #Restart service if init-script has changed:
+  notify:
+    - restart apache
+
+- name: Upload templated voeventcache site conf
+  template:
+    src: voeventcache_site.conf.j2
+    dest: "/etc/apache2/sites-available/voeventcache_site.conf"
+    owner: root
+    mode: "u=rw,g=r,o=r"
+  sudo: yes
+  #Restart service if init-script has changed:
+  notify:
+    - restart apache
+
+- name: Enable voevent siteconf
+  command: a2ensite voeventcache_site
+  args:
+    creates: /etc/apache2/sites-enabled/voeventcache_site.conf
+  sudo: yes
+  #Restart service if init-script has changed:
+  notify:
+    - restart apache

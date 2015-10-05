@@ -1,0 +1,18 @@
+<VirtualHost *:80>
+    ServerName {{ voeventcache_domain }}
+    DocumentRoot /var/www/voeventcache
+    ErrorLog ${APACHE_LOG_DIR}/error.log
+    CustomLog ${APACHE_LOG_DIR}/access.log combined
+
+    WSGIDaemonProcess voeventcache user={{ voeventcache_ro_user }} group={{ voevent_group }} threads=2
+    WSGIScriptAlias /api /var/www/voeventcache/voeventcache.wsgi
+
+    <Directory /var/www/voeventcache >
+        WSGIProcessGroup voeventcache
+        WSGIApplicationGroup %{GLOBAL}
+        Order deny,allow
+        Allow from all
+    </Directory>
+
+
+</VirtualHost>

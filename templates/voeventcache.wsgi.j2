@@ -1,0 +1,15 @@
+activate_this = '{{ voeventcache_venv }}/bin/activate_this.py'
+execfile(activate_this, dict(__file__=activate_this))
+
+from voeventcache.database import session_registry
+from sqlalchemy import engine
+import logging
+import sys
+
+logging.basicConfig(stream=sys.stderr)
+
+session_registry.configure(bind=engine.create_engine(
+    '{{  voeventcache_db_ro_url }}'
+))
+
+from voeventcache.restapi.app import app as application

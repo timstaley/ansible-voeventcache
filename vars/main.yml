@@ -3,3 +3,7 @@
 voeventcache_users:
   - "{{voeventcache_user}}"
   - "{{voeventcache_ro_user}}"
+
+
+voeventcache_db_url: "postgresql://{{ voeventcache_user }}:{{ voeventcache_user }}@localhost/{{ voeventcache_db }}"
+voeventcache_db_ro_url: "postgresql://{{ voeventcache_ro_user }}:{{ voeventcache_ro_user }}@localhost/{{ voeventcache_db }}"
