@@ -1,0 +1,28 @@
+- name: Create repo / venv dir with correct permissions
+  file: path={{item}} state=directory mode=0755 owner={{ansible_user_id}}
+  with_items:
+    - "{{ voeventcache_repo_path }}"
+    - "{{ voeventcache_venv }}"
+  sudo: yes
+
+- name: Clone voeventcache repo
+  git:
+    repo: https://github.com/timstaley/voeventcache.git
+    dest: "{{ voeventcache_repo_path }}"
+
+- name: Install voeventcache into v-env
+  pip:
+    name: ".[all]"
+    chdir: "{{ voeventcache_repo_path }}"
+    virtualenv: "{{ voeventcache_venv }}"
+
+- name: Run the tests
+  shell: ". {{ voeventcache_venv }}/bin/activate && ./runtests.py -svx"
+  args:
+    chdir: "{{ voeventcache_repo_path }}"
+  become: yes
+  become_user: "{{voeventcache_user}}"
+  changed_when: False
+  register: pytest_result
+  failed_when: "'FAILURES' in pytest_result.stdout or 'ERRORS' in pytest_result.stdout"
+  tags: test
