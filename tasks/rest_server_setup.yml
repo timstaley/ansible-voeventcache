@@ -1,5 +1,8 @@
 - name: Enable mod_wsgi
-  apache2_module: state=present name=wsgi
+  apache2_module: state=present name={{item}}
+  with_items:
+    - wsgi
+    - rewrite
   sudo: yes
   notify: restart apache
 

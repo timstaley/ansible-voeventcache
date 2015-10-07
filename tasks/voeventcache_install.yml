@@ -13,7 +13,7 @@
 - name: Install voeventcache into v-env
   pip:
     name: ".[all]"
-#    extra_args: "-U"
+    extra_args: "-e"
     chdir: "{{ voeventcache_repo_path }}"
     virtualenv: "{{ voeventcache_venv }}"
 
@@ -31,7 +31,7 @@
 - name: Create the cachedb
   shell: >
         . {{ voeventcache_venv }}/bin/activate &&
-        voeventcache/bin/create_db.py {{ voeventcache_db_url }}
+        voeventcache/bin/voeventcache_createdb.py {{ voeventcache_db_url }}
   args:
     chdir: "{{ voeventcache_repo_path }}"
   become: yes
