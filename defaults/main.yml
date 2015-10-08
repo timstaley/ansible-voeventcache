@@ -13,3 +13,4 @@ voeventcache_ro_user: "voeventcache_ro"
 voeventcache_db: "voeventcache"
 
 voeventcache_domain: "voeventcache.4pisky.org"
+wwwroot: "/var/www/voeventcache"

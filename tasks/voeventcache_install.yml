@@ -9,11 +9,18 @@
   git:
     repo: https://github.com/timstaley/voeventcache.git
     dest: "{{ voeventcache_repo_path }}"
+  notify: restart apache
 
 - name: Install voeventcache into v-env
   pip:
     name: ".[all]"
     extra_args: "-e"
+    chdir: "{{ voeventcache_repo_path }}"
+    virtualenv: "{{ voeventcache_venv }}"
+
+- name: Install doc-requirements into v-env
+  pip:
+    requirements: "docs/requirements.txt"
     chdir: "{{ voeventcache_repo_path }}"
     virtualenv: "{{ voeventcache_venv }}"
 
@@ -47,4 +54,5 @@
     login: "{{ voeventcache_user }}"
   become: yes
   become_user: "{{ voeventcache_user }}"
+
 

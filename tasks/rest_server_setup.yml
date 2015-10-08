@@ -18,13 +18,13 @@
 - name: Create /var/www subdir with correct permissions
   file: path={{item}} state=directory mode=0755 owner={{ voeventcache_user }}
   with_items:
-    - /var/www/voeventcache
+    - "{{ wwwroot }}"
   sudo: yes
 
 - name: Upload templated voeventcache wsgi config
   template:
     src: voeventcache.wsgi.j2
-    dest: "/var/www/voeventcache/voeventcache.wsgi"
+    dest: "{{ wwwroot }}/voeventcache.wsgi"
     owner: "{{ voeventcache_user }}"
     group: voevent
     mode: "u=rw,g=r,o=r"
@@ -33,6 +33,7 @@
   #Restart service if init-script has changed:
   notify:
     - restart apache
+
 
 - name: Upload templated voeventcache site conf
   template:
