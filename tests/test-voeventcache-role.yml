@@ -1,4 +1,4 @@
-- hosts: voeventcachevm
+- hosts: test
 
   pre_tasks:
     - include: base.yml tags=base

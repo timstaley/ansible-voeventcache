@@ -6,7 +6,7 @@ Vagrant.configure(2) do |config|
   config.vm.define "voeventcachevm" do |voeventcachevm| end
 
   config.vm.provider "virtualbox" do |v|
-      v.memory = 1048
+      v.memory = 2560
       v.cpus = 2
   end
 
@@ -14,6 +14,7 @@ Vagrant.configure(2) do |config|
 
   config.vm.provision "ansible" do |ansible|
     ansible.playbook = "../tests/test-voeventcache-role.yml"
+    ansible.inventory_path = "../hosts"
     ansible.verbose = "vv"
   end
  
