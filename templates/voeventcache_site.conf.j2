@@ -1,18 +1,26 @@
 <VirtualHost *:80>
     ServerName {{ voeventcache_domain }}
-    DocumentRoot {{ wwwroot }}
     ErrorLog ${APACHE_LOG_DIR}/error.log
     CustomLog ${APACHE_LOG_DIR}/access.log combined
 
-    WSGIDaemonProcess voeventcache user={{ voeventcache_ro_user }} group={{ voevent_group }} threads=2
-    WSGIScriptAlias / {{ wwwroot }}/voeventcache.wsgi
+    #Crucial for correct handling of urlencoded IVORNs:
+    AllowEncodedSlashes NoDecode
+
     Alias /docs {{ wwwroot }}/docs
+    <Directory {{ wwwroot }}/docs>
+        Require all granted
+    </Directory>
+
+
+    WSGIScriptAlias / {{ wwwroot }}/voeventcache.wsgi
+    WSGIDaemonProcess voeventcache user={{ voeventcache_ro_user }} group={{ voevent_group }} threads=2
 
     <Directory {{ wwwroot }} >
+        <Files voeventcache.wsgi>
+            Require all granted
+        </Files>
         WSGIProcessGroup voeventcache
         WSGIApplicationGroup %{GLOBAL}
-        Order deny,allow
-        Allow from all
         RewriteEngine On
         RedirectMatch ^/$ /docs
     </Directory>
