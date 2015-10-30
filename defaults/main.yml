@@ -1,16 +1,16 @@
 ---
-# defaults file for voeventcache
+# defaults file for voeventdb
 
 #Typically only need to override these two default dirs:
 repo_dir: "/opt/repos"
 default_install_prefix: "/opt"
 
-voeventcache_repo_path: "{{ repo_dir }}/voeventcache"
-voeventcache_venv: "{{ default_install_prefix }}/venvs/voeventcache"
+voeventdb_repo_path: "{{ repo_dir }}/voeventdb"
+voeventdb_venv: "{{ default_install_prefix }}/venvs/voeventdb"
 voevent_group: "voevent"
-voeventcache_user: "voeventcache_owner"
-voeventcache_ro_user: "voeventcache_ro"
-voeventcache_db: "voeventcache"
+voeventdb_user: "voeventdb_owner"
+voeventdb_ro_user: "voeventdb_ro"
+voeventdb_db: "voeventdb"
 
-voeventcache_domain: "voeventcache.4pisky.org"
-wwwroot: "/var/www/voeventcache"
+voeventdb_domain: "voeventdb.4pisky.org"
+wwwroot: "/var/www/voeventdb"

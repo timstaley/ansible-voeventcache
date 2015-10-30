@@ -8,26 +8,26 @@
   notify:
     - restart postgres
 
-- name: Create postgres voeventcache user
+- name: Create postgres voeventdb user
   postgresql_user:
-    name: "{{voeventcache_user}}"
-    password: "{{voeventcache_user}}"
+    name: "{{voeventdb_user}}"
+    password: "{{voeventdb_user}}"
     role_attr_flags: "CREATEDB"
   become: yes
   become_user: postgres
 
-- name: Create postgres voeventcache read-only user
+- name: Create postgres voeventdb read-only user
   postgresql_user:
-    name: "{{voeventcache_ro_user}}"
-    password: "{{voeventcache_ro_user}}"
+    name: "{{voeventdb_ro_user}}"
+    password: "{{voeventdb_ro_user}}"
   become: yes
   become_user: postgres
 
 - name: Create postgres user-db (simplifies use of default login)
   postgresql_db:
-    name: "{{voeventcache_user}}"
-    login_user: "{{voeventcache_user}}"
+    name: "{{voeventdb_user}}"
+    login_user: "{{voeventdb_user}}"
   become: yes
-  become_user: "{{voeventcache_user}}"
+  become_user: "{{voeventdb_user}}"
 
 

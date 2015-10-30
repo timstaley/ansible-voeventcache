@@ -1,9 +1,0 @@
-- hosts: test
-
-  pre_tasks:
-    - include: base.yml tags=base
-
-
-  roles:
-    - { role: ../../voeventcache,
-        voeventcache_domain: "localhost" }

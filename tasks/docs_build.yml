@@ -1,11 +1,11 @@
 - name: Build docs
   shell: >
-        . {{ voeventcache_venv }}/bin/activate &&
+        . {{ voeventdb_venv }}/bin/activate &&
         rm -rf {{ wwwroot }}/docs/* &&
         sphinx-build -b html  -v source {{ wwwroot }}/docs
 
   args:
-    chdir: "{{ voeventcache_repo_path }}/docs"
+    chdir: "{{ voeventdb_repo_path }}/docs"
   become: yes
-  become_user: "{{ voeventcache_user }}"
+  become_user: "{{ voeventdb_user }}"
   changed_when: False

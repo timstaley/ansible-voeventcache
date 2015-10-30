@@ -16,29 +16,29 @@
     - restart apache
 
 - name: Create /var/www subdir with correct permissions
-  file: path={{item}} state=directory mode=0755 owner={{ voeventcache_user }}
+  file: path={{item}} state=directory mode=0755 owner={{ voeventdb_user }}
   with_items:
     - "{{ wwwroot }}"
   sudo: yes
 
-- name: Upload templated voeventcache wsgi config
+- name: Upload templated voeventdb wsgi config
   template:
-    src: voeventcache.wsgi.j2
-    dest: "{{ wwwroot }}/voeventcache.wsgi"
-    owner: "{{ voeventcache_user }}"
+    src: voeventdb.wsgi.j2
+    dest: "{{ wwwroot }}/voeventdb.wsgi"
+    owner: "{{ voeventdb_user }}"
     group: voevent
     mode: "u=rw,g=r,o=r"
   become: yes
-  become_user: "{{ voeventcache_user }}"
+  become_user: "{{ voeventdb_user }}"
   #Restart service if init-script has changed:
   notify:
     - restart apache
 
 
-- name: Upload templated voeventcache site conf
+- name: Upload templated voeventdb site conf
   template:
-    src: voeventcache_site.conf.j2
-    dest: "/etc/apache2/sites-available/voeventcache_site.conf"
+    src: voeventdb_site.conf.j2
+    dest: "/etc/apache2/sites-available/voeventdb_site.conf"
     owner: root
     mode: "u=rw,g=r,o=r"
   sudo: yes
@@ -47,9 +47,9 @@
     - restart apache
 
 - name: Enable voevent siteconf
-  command: a2ensite voeventcache_site
+  command: a2ensite voeventdb_site
   args:
-    creates: /etc/apache2/sites-enabled/voeventcache_site.conf
+    creates: /etc/apache2/sites-enabled/voeventdb_site.conf
   sudo: yes
   #Restart service if init-script has changed:
   notify:

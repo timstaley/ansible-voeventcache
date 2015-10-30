@@ -1,5 +1,5 @@
 <VirtualHost *:80>
-    ServerName {{ voeventcache_domain }}
+    ServerName {{ voeventdb_domain }}
     ErrorLog ${APACHE_LOG_DIR}/error.log
     CustomLog ${APACHE_LOG_DIR}/access.log combined
 
@@ -12,14 +12,14 @@
     </Directory>
 
 
-    WSGIScriptAlias / {{ wwwroot }}/voeventcache.wsgi
-    WSGIDaemonProcess voeventcache user={{ voeventcache_ro_user }} group={{ voevent_group }} threads=2
+    WSGIScriptAlias / {{ wwwroot }}/voeventdb.wsgi
+    WSGIDaemonProcess voeventdb user={{ voeventdb_ro_user }} group={{ voevent_group }} threads=2
 
     <Directory {{ wwwroot }} >
-        <Files voeventcache.wsgi>
+        <Files voeventdb.wsgi>
             Require all granted
         </Files>
-        WSGIProcessGroup voeventcache
+        WSGIProcessGroup voeventdb
         WSGIApplicationGroup %{GLOBAL}
         RewriteEngine On
         RedirectMatch ^/$ /apiv0

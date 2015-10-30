@@ -1,0 +1,58 @@
+- name: Create repo / venv dir with correct permissions
+  file: path={{item}} state=directory mode=0755 owner={{ansible_user_id}}
+  with_items:
+    - "{{ voeventdb_repo_path }}"
+    - "{{ voeventdb_venv }}"
+  sudo: yes
+
+- name: Clone voeventdb repo
+  git:
+    repo: https://github.com/timstaley/voeventdb.git
+    dest: "{{ voeventdb_repo_path }}"
+  notify: restart apache
+
+- name: Install voeventdb into v-env
+  pip:
+    name: ".[all]"
+    extra_args: "-e"
+    chdir: "{{ voeventdb_repo_path }}"
+    virtualenv: "{{ voeventdb_venv }}"
+
+- name: Install doc-requirements into v-env
+  pip:
+    requirements: "docs/requirements.txt"
+    chdir: "{{ voeventdb_repo_path }}"
+    virtualenv: "{{ voeventdb_venv }}"
+
+- name: Run the tests
+  shell: ". {{ voeventdb_venv }}/bin/activate && ./runtests.py -svx"
+  args:
+    chdir: "{{ voeventdb_repo_path }}"
+  become: yes
+  become_user: "{{voeventdb_user}}"
+  changed_when: False
+  register: pytest_result
+  failed_when: "'FAILURES' in pytest_result.stdout or 'ERRORS' in pytest_result.stdout"
+  tags: test
+
+- name: Create the cachedb
+  shell: >
+        . {{ voeventdb_venv }}/bin/activate &&
+        voeventdb/bin/voeventdb_create.py {{ voeventdb_db_url }}
+  args:
+    chdir: "{{ voeventdb_repo_path }}"
+  become: yes
+  become_user: "{{ voeventdb_user }}"
+  changed_when: False
+
+- name: Grant read-only privs for REST-server on voeventdb DB
+  postgresql_privs:
+    db: "{{ voeventdb_db }}"
+    privs: SELECT
+    objs: voevent
+    roles: "{{ voeventdb_ro_user }}"
+    login: "{{ voeventdb_user }}"
+  become: yes
+  become_user: "{{ voeventdb_user }}"
+
+

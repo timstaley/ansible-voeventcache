@@ -1,9 +1,9 @@
 ---
-# vars file for voeventcache
-voeventcache_users:
-  - "{{voeventcache_user}}"
-  - "{{voeventcache_ro_user}}"
+# vars file for voeventdb
+voeventdb_users:
+  - "{{voeventdb_user}}"
+  - "{{voeventdb_ro_user}}"
 
 
-voeventcache_db_url: "postgresql://{{ voeventcache_user }}:{{ voeventcache_user }}@localhost/{{ voeventcache_db }}"
-voeventcache_db_ro_url: "postgresql://{{ voeventcache_ro_user }}:{{ voeventcache_ro_user }}@localhost/{{ voeventcache_db }}"
+voeventdb_db_url: "postgresql://{{ voeventdb_user }}:{{ voeventdb_user }}@localhost/{{ voeventdb_db }}"
+voeventdb_db_ro_url: "postgresql://{{ voeventdb_ro_user }}:{{ voeventdb_ro_user }}@localhost/{{ voeventdb_db }}"

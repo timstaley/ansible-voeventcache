@@ -1,14 +1,14 @@
 ---
-# tasks file for voeventcache
+# tasks file for voeventdb
 - name: Install apt dependencies.
   apt: name={{item}} update_cache=yes cache_valid_time=600
-  with_items: "{{ lookup('file', 'voeventcache-apt-deps.txt').split() }}"
+  with_items: "{{ lookup('file', 'voeventdb-apt-deps.txt').split() }}"
   sudo: yes
   tags: apt
 
 - include: users.yml tags=users
 - include: postgres_setup.yml tags=postgres
-- include: voeventcache_install.yml tags=install
+- include: voeventdb_install.yml tags=install
 - include: rest_server_setup.yml tags=apache
 - include: docs_build.yml tags=docs
 
