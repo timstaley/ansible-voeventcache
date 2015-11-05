@@ -9,7 +9,15 @@
   git:
     repo: https://github.com/timstaley/voeventdb.git
     dest: "{{ voeventdb_repo_path }}"
+    force: yes
   notify: restart apache
+
+- name: Make q3c postgres extension
+  command: make install
+  args:
+    chdir: "{{ voeventdb_repo_path }}/external/q3c"
+    creates: "/usr/share/postgresql/9.3/contrib/q3c.sql"
+  sudo: yes
 
 - name: Install voeventdb into v-env
   pip:
@@ -29,30 +37,30 @@
   args:
     chdir: "{{ voeventdb_repo_path }}"
   become: yes
-  become_user: "{{voeventdb_user}}"
+  become_user: "{{ voeventdb_owner }}"
   changed_when: False
   register: pytest_result
-  failed_when: "'FAILURES' in pytest_result.stdout or 'ERRORS' in pytest_result.stdout"
+  failed_when: "'FAILURE' in pytest_result.stdout or 'ERROR' in pytest_result.stdout"
   tags: test
 
 - name: Create the cachedb
   shell: >
         . {{ voeventdb_venv }}/bin/activate &&
-        voeventdb/bin/voeventdb_create.py {{ voeventdb_db_url }}
+        voeventdb/bin/voeventdb_create.py {{ voeventdb_dbname }}
   args:
     chdir: "{{ voeventdb_repo_path }}"
   become: yes
-  become_user: "{{ voeventdb_user }}"
+  become_user: "{{ voeventdb_owner }}"
   changed_when: False
 
 - name: Grant read-only privs for REST-server on voeventdb DB
   postgresql_privs:
-    db: "{{ voeventdb_db }}"
+    db: "{{ voeventdb_dbname }}"
     privs: SELECT
     objs: voevent
     roles: "{{ voeventdb_ro_user }}"
-    login: "{{ voeventdb_user }}"
+    login: "{{ voeventdb_owner }}"
   become: yes
-  become_user: "{{ voeventdb_user }}"
+  become_user: "{{ voeventdb_owner }}"
 
 

@@ -1,4 +1,4 @@
 build-essential
 libxml2-dev libxslt1-dev
-postgresql libpq-dev python-psycopg2
+postgresql-9.3 postgresql-server-dev-9.3 libpq-dev python-psycopg2
 apache2 libapache2-mod-wsgi apache2-utils

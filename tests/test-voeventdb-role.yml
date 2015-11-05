@@ -1,9 +1,7 @@
 - hosts: test
 
-  pre_tasks:
-    - include: base.yml tags=base
-
 
   roles:
+    - timstaley.base
     - { role: ../../voeventdb,
         voeventdb_domain: "localhost" }
