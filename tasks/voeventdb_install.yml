@@ -57,7 +57,9 @@
   postgresql_privs:
     db: "{{ voeventdb_dbname }}"
     privs: SELECT
-    objs: voevent
+    objs: ALL_IN_SCHEMA
+    type: table
+    schema: public
     roles: "{{ voeventdb_ro_user }}"
     login: "{{ voeventdb_owner }}"
   become: yes
