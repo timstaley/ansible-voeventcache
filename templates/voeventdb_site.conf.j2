@@ -13,7 +13,7 @@
 
 
     WSGIScriptAlias / {{ wwwroot }}/voeventdb.wsgi
-    WSGIDaemonProcess voeventdb user={{ voeventdb_ro_user }} group={{ voevent_group }} threads=2
+    WSGIDaemonProcess voeventdb user={{ voeventdb_ro_user }} group={{ voeventdb_group }} threads=2
 
     <Directory {{ wwwroot }} >
         <Files voeventdb.wsgi>
@@ -24,8 +24,6 @@
         RewriteEngine On
         RedirectMatch ^/$ /apiv0
     </Directory>
-
-
 
 
 </VirtualHost>

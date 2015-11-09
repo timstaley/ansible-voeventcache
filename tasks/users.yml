@@ -1,9 +1,9 @@
 - name: Setup voevent user-group
-  group: name=voevent
+  group: name={{ voeventdb_group }}
   sudo: yes
 
 - name: Create voeventdb read/write users.
-  user: name={{item}} group=voevent shell=/bin/bash
+  user: name={{item}} group={{ voeventdb_group }} shell=/bin/bash
   sudo: yes
   with_items: voeventdb_users
 
