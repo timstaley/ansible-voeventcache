@@ -6,7 +6,7 @@ Vagrant.configure(2) do |config|
   config.vm.define "voeventdbvm" do |voeventdbvm| end
 
   config.vm.provider "virtualbox" do |v|
-      v.memory = 2560
+      v.memory = 2048
       v.cpus = 2
   end
 
@@ -15,8 +15,10 @@ Vagrant.configure(2) do |config|
 
   config.vm.provision "ansible" do |ansible|
     ansible.playbook = "../tests/test-voeventdb-role.yml"
-    ansible.inventory_path = "vagranthost"
     ansible.verbose = "vv"
+    ansible.groups = {
+      "test" => ["voeventdbvm"],
+      }
   end
  
   if Vagrant.has_plugin?("vagrant-cachier")
