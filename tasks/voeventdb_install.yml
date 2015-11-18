@@ -32,6 +32,13 @@
     chdir: "{{ voeventdb_repo_path }}"
     virtualenv: "{{ voeventdb_venv }}"
 
+- name: Create the corpusdb
+  shell: ". {{ voeventdb_venv }}/bin/activate && voeventdb_create.py"
+  become: yes
+  become_user: "{{ voeventdb_owner }}"
+  changed_when: False
+  tags: test
+
 - name: Run the tests
   shell: ". {{ voeventdb_venv }}/bin/activate && ./runtests.py -svx"
   args:

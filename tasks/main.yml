@@ -10,5 +10,9 @@
 - include: postgres_setup.yml tags=postgres
 - include: voeventdb_install.yml tags=install
 - include: rest_server_setup.yml tags=apache
+  when: rest_enabled
 - include: docs_build.yml tags=docs
+  when: rest_enabled
+- include: rest_server_deactivate.yml tags=apache
+  when: not rest_enabled
 

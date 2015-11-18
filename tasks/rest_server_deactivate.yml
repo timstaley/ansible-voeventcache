@@ -1,0 +1,8 @@
+- name: Disable voevent siteconf
+  command: a2dissite voeventdb_site
+  args:
+    removes: /etc/apache2/sites-enabled/voeventdb_site.conf
+  sudo: yes
+  #Restart service if init-script has changed:
+  notify:
+    - restart apache

@@ -14,3 +14,5 @@ voeventdb_dbname: "voeventdb"
 
 voeventdb_domain: "voeventdb.4pisky.org"
 wwwroot: "/var/www/voeventdb"
+
+rest_enabled: false
