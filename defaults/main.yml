@@ -12,7 +12,7 @@ voeventdb_owner: "voeventdb_owner"
 voeventdb_ro_user: "voeventdb_ro"
 voeventdb_dbname: "voeventdb"
 
-voeventdb_domain: "voeventdb.4pisky.org"
+voeventdb_domain: "localhost"
 wwwroot: "/var/www/voeventdb"
 
 rest_enabled: false

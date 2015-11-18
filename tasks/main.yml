@@ -1,10 +1,18 @@
 ---
 # tasks file for voeventdb
-- name: Install apt dependencies.
+- name: Install voeventdb apt dependencies.
   apt: name={{item}} update_cache=yes cache_valid_time=600
   with_items: "{{ lookup('file', 'voeventdb-apt-deps.txt').split() }}"
   sudo: yes
   tags: apt
+
+- name: Install Apache apt dependencies
+  apt: name={{item}} update_cache=yes cache_valid_time=600
+  with_items: "{{ lookup('file', 'apache-apt-deps.txt').split() }}"
+  sudo: yes
+  when: rest_enabled
+  tags: apt, apache
+
 
 - include: users.yml tags=users
 - include: postgres_setup.yml tags=postgres
