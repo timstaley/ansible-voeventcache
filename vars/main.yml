@@ -1,9 +1,10 @@
 ---
 # vars file for voeventdb
 voeventdb_users:
-  - "{{voeventdb_owner}}"
-  - "{{voeventdb_ro_user}}"
+  - "{{ voeventdb_deploy_user }}"
+  - "{{ voeventdb_rw_user }}"
+  - "{{ voeventdb_ro_user }}"
 
 
-voeventdb_db_url: "postgresql://{{ voeventdb_owner }}:{{ voeventdb_owner }}@localhost/{{ voeventdb_dbname }}"
+voeventdb_db_url: "postgresql://{{ voeventdb_rw_user }}:{{ voeventdb_rw_user }}@localhost/{{ voeventdb_dbname }}"
 voeventdb_db_ro_url: "postgresql://{{ voeventdb_ro_user }}:{{ voeventdb_ro_user }}@localhost/{{ voeventdb_dbname }}"

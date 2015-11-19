@@ -7,5 +7,5 @@
   args:
     chdir: "{{ voeventdb_repo_path }}/docs"
   become: yes
-  become_user: "{{ voeventdb_owner }}"
+  become_user: "{{ voeventdb_rw_user }}"
   changed_when: False

@@ -1,5 +1,10 @@
 - name: Create repo / venv dir with correct permissions
-  file: path={{item}} state=directory mode=0755 owner={{ansible_user_id}}
+  file:
+    path: "{{item}}"
+    state: directory
+    mode: 0755
+    owner: "{{ voeventdb_deploy_user }}"
+    recurse: true
   with_items:
     - "{{ voeventdb_repo_path }}"
     - "{{ voeventdb_venv }}"
@@ -11,6 +16,8 @@
     dest: "{{ voeventdb_repo_path }}"
     force: yes
   notify: restart apache
+  become: yes
+  become_user: "{{ voeventdb_deploy_user }}"
 
 - name: Make q3c postgres extension
   command: make install
@@ -25,17 +32,21 @@
     extra_args: "-e"
     chdir: "{{ voeventdb_repo_path }}"
     virtualenv: "{{ voeventdb_venv }}"
+  become: yes
+  become_user: "{{ voeventdb_deploy_user }}"
 
 - name: Install doc-requirements into v-env
   pip:
     requirements: "docs/requirements.txt"
     chdir: "{{ voeventdb_repo_path }}"
     virtualenv: "{{ voeventdb_venv }}"
+  become: yes
+  become_user: "{{ voeventdb_deploy_user }}"
 
 - name: Create the corpusdb
   shell: ". {{ voeventdb_venv }}/bin/activate && voeventdb_create.py"
   become: yes
-  become_user: "{{ voeventdb_owner }}"
+  become_user: "{{ voeventdb_rw_user }}"
   changed_when: False
   tags: test
 
@@ -44,7 +55,7 @@
   args:
     chdir: "{{ voeventdb_repo_path }}"
   become: yes
-  become_user: "{{ voeventdb_owner }}"
+  become_user: "{{ voeventdb_rw_user }}"
   changed_when: False
   register: pytest_result
   failed_when: "'FAILURE' in pytest_result.stdout or 'ERROR' in pytest_result.stdout"
@@ -57,7 +68,7 @@
   args:
     chdir: "{{ voeventdb_repo_path }}"
   become: yes
-  become_user: "{{ voeventdb_owner }}"
+  become_user: "{{ voeventdb_rw_user }}"
   changed_when: False
 
 - name: Grant read-only privs for REST-server on voeventdb DB
@@ -68,8 +79,8 @@
     type: table
     schema: public
     roles: "{{ voeventdb_ro_user }}"
-    login: "{{ voeventdb_owner }}"
+    login: "{{ voeventdb_rw_user }}"
   become: yes
-  become_user: "{{ voeventdb_owner }}"
+  become_user: "{{ voeventdb_rw_user }}"
 
 

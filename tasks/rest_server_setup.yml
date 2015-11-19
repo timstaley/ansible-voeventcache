@@ -16,7 +16,7 @@
     - restart apache
 
 - name: Create /var/www subdir with correct permissions
-  file: path={{item}} state=directory mode=0755 owner={{ voeventdb_owner }}
+  file: path={{item}} state=directory mode=0755 owner={{ voeventdb_rw_user }}
   with_items:
     - "{{ wwwroot }}"
   sudo: yes
@@ -25,11 +25,11 @@
   template:
     src: voeventdb.wsgi.j2
     dest: "{{ wwwroot }}/voeventdb.wsgi"
-    owner: "{{ voeventdb_owner }}"
+    owner: "{{ voeventdb_rw_user }}"
     group: "{{ voeventdb_group }}"
     mode: "u=rw,g=r,o=r"
   become: yes
-  become_user: "{{ voeventdb_owner }}"
+  become_user: "{{ voeventdb_rw_user }}"
   #Restart service if init-script has changed:
   notify:
     - restart apache

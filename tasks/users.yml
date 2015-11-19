@@ -3,19 +3,19 @@
   sudo: yes
 
 - name: Create voeventdb read/write users.
-  user: name={{item}} group={{ voeventdb_group }} shell=/bin/bash
+  user: name={{item}} groups={{ voeventdb_group }} shell=/bin/bash
   sudo: yes
   with_items: voeventdb_users
 
-- name: Lookup contents of the standard authorized_keys file
-  slurp: src=~/.ssh/authorized_keys
-  register: authkeys
+#- name: Lookup contents of the standard authorized_keys file
+#  slurp: src=~/.ssh/authorized_keys
+#  register: authkeys
 
 #    - name: Debug
 #      debug: msg="Authkeys \"{{authkeys.content|b64decode}}\""
 #      tags: debug
 
-- name: Upload authorized_keys for new users
-  authorized_key: user={{item}} key="{{authkeys.content|b64decode}}"
-  with_items: voeventdb_users
-  sudo: yes
+#- name: Upload authorized_keys for new users, so we can login directly
+#  authorized_key: user={{item}} key="{{authkeys.content|b64decode}}"
+#  with_items: voeventdb_users
+#  sudo: yes

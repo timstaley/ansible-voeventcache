@@ -3,7 +3,7 @@ galaxy_info:
   author: Tim Staley
   description: Installs voeventdb.
   license: BSD
-  min_ansible_version: 1.2
+  min_ansible_version: 1.9
   platforms:
   #- name: EL
   #  versions:
