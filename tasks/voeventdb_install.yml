@@ -23,6 +23,7 @@
 - name: Notify restart-apache if REST enabled and voeventdb updated
   debug: msg="voeventdb updated, will notify apache-restart"
   when: voeventdb_rest_enabled and voeventdb_repo_clone_result | changed
+  changed_when: True
   notify:
     - restart apache
 
