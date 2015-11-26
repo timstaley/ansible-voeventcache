@@ -26,6 +26,14 @@
     creates: "/usr/share/postgresql/9.3/contrib/q3c.sql"
   sudo: yes
 
+- name: Clean q3c submodule directory
+  command: git clean -df
+  args:
+    chdir: "{{ voeventdb_repo_path }}/external/q3c"
+    removes: "{{ voeventdb_repo_path }}/external/q3c/q3c.o"
+  become: yes
+  become_user: "{{ voeventdb_deploy_user }}"
+
 - name: Install voeventdb into v-env
   pip:
     name: ".[all]"
