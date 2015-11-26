@@ -7,5 +7,5 @@
       sudo: yes
     - { role: ../../voeventdb,
         voeventdb_domain: "localhost",
-        rest_enabled: false
+        voeventdb_rest_enabled: false
         }

@@ -4,7 +4,8 @@
     state: directory
     mode: 0755
     owner: "{{ voeventdb_deploy_user }}"
-    recurse: true
+    group: "{{ voeventdb_deploy_user }}"
+#    recurse: true
   with_items:
     - "{{ voeventdb_repo_path }}"
     - "{{ voeventdb_venv }}"
@@ -15,9 +16,15 @@
     repo: https://github.com/timstaley/voeventdb.git
     dest: "{{ voeventdb_repo_path }}"
     force: yes
-  notify: restart apache
   become: yes
   become_user: "{{ voeventdb_deploy_user }}"
+  register: voeventdb_repo_clone_result
+
+- name: Notify restart-apache if REST enabled and voeventdb updated
+  debug: msg="voeventdb updated, will notify apache-restart"
+  when: voeventdb_rest_enabled and voeventdb_repo_clone_result | changed
+  notify:
+    - restart apache
 
 - name: Make q3c postgres extension
   command: make install
@@ -27,17 +34,19 @@
   sudo: yes
 
 - name: Clean q3c submodule directory
-  command: git clean -df
+  shell: git clean -df && git reset --hard
   args:
     chdir: "{{ voeventdb_repo_path }}/external/q3c"
-    removes: "{{ voeventdb_repo_path }}/external/q3c/q3c.o"
+#    removes: "{{ voeventdb_repo_path }}/external/q3c/q3c.o"
   become: yes
   become_user: "{{ voeventdb_deploy_user }}"
+  changed_when: False
 
 - name: Install voeventdb into v-env
   pip:
     name: ".[all]"
-    extra_args: "-e"
+#    extra_args: "-e"
+    state: latest
     chdir: "{{ voeventdb_repo_path }}"
     virtualenv: "{{ voeventdb_venv }}"
   become: yes

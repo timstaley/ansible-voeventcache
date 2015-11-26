@@ -3,6 +3,10 @@
   args:
     removes: /etc/apache2/sites-enabled/voeventdb_site.conf
   sudo: yes
-  #Restart service if init-script has changed:
+  register: voeventdb_siteconf_removed
+
+- name: Restart apache if voeventdb removed
+  debug: msg="voeventdb_site.conf removed, will notify apache-restart"
+  when: voeventdb_siteconf_removed | changed
   notify:
     - restart apache

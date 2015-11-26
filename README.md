@@ -24,8 +24,8 @@ Then:
     
 ## Notes
 
-If the role-variable ``rest_enabled`` is passed as true, then apache2 will 
-be installed and configured as necessary. If ``rest_enabled`` is false,
+If the role-variable ``voeventdb_rest_enabled`` is passed as true, then apache2 will 
+be installed and configured as necessary. If ``voeventdb_rest_enabled`` is false,
 then the only action taken is that the voeventdb site is disabled using
 ``a2dissite`` if the relevant file is present in 
 `/etc/apache2/sites-enabled`

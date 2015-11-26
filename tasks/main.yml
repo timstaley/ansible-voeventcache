@@ -10,7 +10,7 @@
   apt: name={{item}} update_cache=yes cache_valid_time=600
   with_items: "{{ lookup('file', 'apache-apt-deps.txt').split() }}"
   sudo: yes
-  when: rest_enabled
+  when: voeventdb_rest_enabled
   tags: apt, apache
 
 
@@ -18,9 +18,9 @@
 - include: postgres_setup.yml tags=postgres
 - include: voeventdb_install.yml tags=install
 - include: rest_server_setup.yml tags=apache
-  when: rest_enabled
+  when: voeventdb_rest_enabled
 - include: docs_build.yml tags=docs
-  when: rest_enabled
+  when: voeventdb_rest_enabled
 - include: rest_server_deactivate.yml tags=apache
-  when: not rest_enabled
+  when: not voeventdb_rest_enabled
 

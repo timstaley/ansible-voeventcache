@@ -16,4 +16,4 @@ voeventdb_dbname: "voeventdb"
 voeventdb_domain: "localhost"
 wwwroot: "/var/www/voeventdb"
 
-rest_enabled: false
+voeventdb_rest_enabled: false
