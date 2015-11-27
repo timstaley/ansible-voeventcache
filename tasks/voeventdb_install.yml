@@ -82,7 +82,7 @@
 - name: Create the cachedb
   shell: >
         . {{ voeventdb_venv }}/bin/activate &&
-        voeventdb/bin/voeventdb_create.py {{ voeventdb_dbname }}
+          voeventdb_create.py {{ voeventdb_dbname }}
   args:
     chdir: "{{ voeventdb_repo_path }}"
   become: yes
