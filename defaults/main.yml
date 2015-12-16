@@ -1,19 +1,27 @@
 ---
 # defaults file for voeventdb
 
-#Typically only need to override these two default dirs:
-repo_dir: "/opt/repos"
-default_install_prefix: "/opt"
+#Version to install, default is cutting-edge master
+#Recommend pinning to a known-good stable version in production!
+voeventdb_version: "HEAD"
 
+#Code checkout directory:
+repo_dir: "/opt/repos"
 voeventdb_repo_path: "{{ repo_dir }}/voeventdb"
+
+#Install v-env directory:
+default_install_prefix: "/opt"
 voeventdb_venv: "{{ default_install_prefix }}/venvs/voeventdb"
+
+#Users
 voeventdb_group: "voeventdb"
 voeventdb_deploy_user: "voeventdb_deploy"
 voeventdb_rw_user: "voeventdb_rw"
 voeventdb_ro_user: "voeventdb_ro"
 voeventdb_dbname: "voeventdb"
 
+#Apache setup, if enabled
+voeventdb_rest_enabled: false
 voeventdb_domain: "localhost"
 wwwroot: "/var/www/voeventdb"
 
-voeventdb_rest_enabled: false

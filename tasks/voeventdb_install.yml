@@ -16,6 +16,7 @@
     repo: https://github.com/timstaley/voeventdb.git
     dest: "{{ voeventdb_repo_path }}"
     force: yes
+    version: "{{ voeventdb_version }}"
   become: yes
   become_user: "{{ voeventdb_deploy_user }}"
   register: voeventdb_repo_clone_result
