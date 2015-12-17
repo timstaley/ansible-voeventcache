@@ -21,13 +21,6 @@
   become_user: "{{ voeventdb_deploy_user }}"
   register: voeventdb_repo_clone_result
 
-- name: Notify restart-apache if REST enabled and voeventdb updated
-  debug: msg="voeventdb updated, will notify apache-restart"
-  when: voeventdb_rest_enabled and voeventdb_repo_clone_result | changed
-  changed_when: True
-  notify:
-    - restart apache
-
 - name: Make q3c postgres extension
   command: make install
   args:
@@ -51,8 +44,16 @@
     state: latest
     chdir: "{{ voeventdb_repo_path }}"
     virtualenv: "{{ voeventdb_venv }}"
+  when: voeventdb_repo_clone_result | changed
   become: yes
   become_user: "{{ voeventdb_deploy_user }}"
+
+- name: Notify restart-apache if REST enabled and voeventdb updated
+  debug: msg="voeventdb updated, will notify apache-restart"
+  when: voeventdb_rest_enabled and voeventdb_repo_clone_result | changed
+  changed_when: True
+  notify:
+    - restart apache
 
 - name: Install doc-requirements into v-env
   pip:
