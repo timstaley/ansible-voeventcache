@@ -71,7 +71,9 @@
   tags: test
 
 - name: Run the tests
-  shell: ". {{ voeventdb_venv }}/bin/activate && ./runtests.py -svx"
+  shell:
+        . {{ voeventdb_venv }}/bin/activate &&
+        VOEVENTDB_DEPLOY=1 ./runtests.py -svx
   args:
     chdir: "{{ voeventdb_repo_path }}"
   become: yes
