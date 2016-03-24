@@ -11,7 +11,7 @@
     - "{{ voeventdb_venv }}"
   sudo: yes
 
-- name: Clone voeventdb repo
+- name: "Clone voeventdb repo at version {{ voeventdb_version }}"
   git:
     repo: https://github.com/timstaley/voeventdb.git
     dest: "{{ voeventdb_repo_path }}"
