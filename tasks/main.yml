@@ -14,13 +14,24 @@
   tags: apt, apache
 
 
-- include: users.yml tags=users
-- include: postgres_setup.yml tags=postgres
-- include: voeventdb_install.yml tags=install
-- include: rest_server_setup.yml tags=apache
+- include: users.yml
+  tags: users
+
+- include: postgres_setup.yml
+  tags: postgres
+
+- include: voeventdb_install.yml
+  tags: install
+
+- include: rest_server_setup.yml
+  tags: apache
   when: voeventdb_rest_enabled
-- include: docs_build.yml tags=docs
+
+- include: docs_build.yml
+  tags: docs
   when: voeventdb_rest_enabled
-- include: rest_server_deactivate.yml tags=apache
+
+- include: rest_server_deactivate.yml
+  tags: apache
   when: not voeventdb_rest_enabled
 
