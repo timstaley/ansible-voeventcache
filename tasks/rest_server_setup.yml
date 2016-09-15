@@ -29,7 +29,6 @@
     group: "{{ voeventdb_group }}"
     mode: "u=rw,g=r,o=r"
   become: yes
-  become_user: "{{ voeventdb_rw_user }}"
   #Restart service if init-script has changed:
   notify:
     - restart apache
@@ -41,7 +40,7 @@
     dest: "/etc/apache2/sites-available/voeventdb_site.conf"
     owner: root
     mode: "u=rw,g=r,o=r"
-  sudo: yes
+  become: yes
   #Restart service if init-script has changed:
   notify:
     - restart apache
@@ -50,7 +49,7 @@
   command: a2ensite voeventdb_site
   args:
     creates: /etc/apache2/sites-enabled/voeventdb_site.conf
-  sudo: yes
+  become: yes
   #Restart service if init-script has changed:
   notify:
     - restart apache
