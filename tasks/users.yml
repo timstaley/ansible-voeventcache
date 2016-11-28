@@ -1,11 +1,11 @@
 - name: Setup voevent user-group
   group: name={{ voeventdb_group }}
-  sudo: yes
+  become: yes
 
 - name: Create voeventdb read/write users.
   user: name={{item}} groups={{ voeventdb_group }} shell=/bin/bash
-  sudo: yes
-  with_items: voeventdb_users
+  become: yes
+  with_items: "{{ voeventdb_users }}"
 
 #- name: Lookup contents of the standard authorized_keys file
 #  slurp: src=~/.ssh/authorized_keys
@@ -18,4 +18,4 @@
 #- name: Upload authorized_keys for new users, so we can login directly
 #  authorized_key: user={{item}} key="{{authkeys.content|b64decode}}"
 #  with_items: voeventdb_users
-#  sudo: yes
+#  become: yes

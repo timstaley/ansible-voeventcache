@@ -3,14 +3,14 @@
   with_items:
     - wsgi
     - rewrite
-  sudo: yes
+  become: yes
   notify: restart apache
 
 - name: Disable default siteconf
   command: a2dissite 000-default
   args:
     removes: /etc/apache2/sites-enabled/000-default.conf
-  sudo: yes
+  become: yes
   #Restart service if init-script has changed:
   notify:
     - restart apache
@@ -19,7 +19,7 @@
   file: path={{item}} state=directory mode=0755 owner={{ voeventdb_rw_user }}
   with_items:
     - "{{ wwwroot }}"
-  sudo: yes
+  become: yes
 
 - name: Upload templated voeventdb wsgi config
   template:

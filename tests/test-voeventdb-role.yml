@@ -1,10 +1,10 @@
 - hosts: test
 
-
   roles:
     - timstaley.base
-    - role: kamaln7.swapfile
-      sudo: yes
+    - { role: kamaln7.swapfile,
+        become: yes
+        }
     - { role: ../../voeventdb,
         voeventdb_domain: "localhost",
         voeventdb_rest_enabled: false

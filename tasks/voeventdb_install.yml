@@ -9,7 +9,7 @@
   with_items:
     - "{{ voeventdb_repo_path }}"
     - "{{ voeventdb_venv }}"
-  sudo: yes
+  become: yes
 
 - name: "Clone voeventdb repo at version {{ voeventdb_version }}"
   git:
@@ -26,7 +26,7 @@
   args:
     chdir: "{{ voeventdb_repo_path }}/external/q3c"
     creates: "/usr/share/postgresql/9.3/contrib/q3c.sql"
-  sudo: yes
+  become: yes
 
 - name: Clean q3c submodule directory
   shell: git clean -df && git reset --hard
