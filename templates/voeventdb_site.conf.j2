@@ -13,7 +13,8 @@
 
 
     WSGIScriptAlias / {{ wwwroot }}/voeventdb.wsgi
-    WSGIDaemonProcess voeventdb user={{ voeventdb_ro_user }} group={{ voeventdb_group }} threads=2
+    WSGIDaemonProcess voeventdb user={{ voeventdb_ro_user }} group={{ voeventdb_group }} threads=2 \
+        python-home={{ voeventdb_venv }}
 
     <Directory {{ wwwroot }} >
         <Files voeventdb.wsgi>

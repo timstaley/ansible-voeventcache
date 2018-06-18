@@ -2,10 +2,10 @@
 
   roles:
     - timstaley.base
-    - { role: kamaln7.swapfile,
+    - { role: tersmitten.swapfile,
         become: yes
         }
     - { role: ../../voeventdb,
         voeventdb_domain: "localhost",
-        voeventdb_rest_enabled: false
+        voeventdb_rest_enabled: true
         }

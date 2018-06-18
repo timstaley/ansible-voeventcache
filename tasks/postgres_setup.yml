@@ -1,8 +1,12 @@
-- name: Drop in readymade postgres.conf
-  copy:
-    src: postgresql.conf-9.3
-    dest: /etc/postgresql/9.3/main
-    mode: "u=rw,g=r,o=r"
+- name: Ensure UTC timezone
+  lineinfile:
+    path: /etc/postgresql/10/main/postgresql.conf
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.subst }}"
+    backup: yes
+  with_items:
+    - { regexp: '^timezone', subst: "timezone = 'UTC'" }
+    - { regexp: '^log_timezone', subst: "log_timezone = 'UTC'" }
   become: yes
   #Restart service if invocation has changed:
   notify:
@@ -13,6 +17,7 @@
     name: "{{ voeventdb_rw_user }}"
     password: "{{ voeventdb_rw_user }}"
     role_attr_flags: "SUPERUSER" #NB must be superuser for successful q3c init.
+    encrypted: yes
   become: yes
   become_user: "postgres"
 
@@ -20,6 +25,7 @@
   postgresql_user:
     name: "{{voeventdb_ro_user}}"
     password: "{{voeventdb_ro_user}}"
+    encrypted: yes
   become: yes
   become_user: "postgres"
 

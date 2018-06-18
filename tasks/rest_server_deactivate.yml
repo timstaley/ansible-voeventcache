@@ -7,6 +7,6 @@
 
 - name: Restart apache if voeventdb removed
   debug: msg="voeventdb_site.conf removed, will notify apache-restart"
-  when: voeventdb_siteconf_removed | changed
+  when: voeventdb_siteconf_removed is changed
   notify:
     - restart apache
